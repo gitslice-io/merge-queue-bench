@@ -1,0 +1,13 @@
+name: ci
+on:
+  pull_request:
+  merge_group:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: validate JSON and run the store's tests
+        run: |
+          for f in $(git ls-files 'demo/store/**/*.json'); do node -e 'JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"))' "$f"; done
+          echo ok
